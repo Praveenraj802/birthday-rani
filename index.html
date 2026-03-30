@@ -1,91 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday, Sweetheart!</title>
-    <link rel="stylesheet" href="style.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap"
-        rel="stylesheet">
+    <title>Happy Birthday Rani ❤️</title>
+    <style>
+        /* MAIN PAGE STYLING */
+        body { 
+            margin: 0; 
+            background: #ffb6c1; 
+            font-family: 'Arial', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        .main-container { text-align: center; z-index: 10; }
+
+        .title { 
+            color: white; 
+            font-size: 2.5rem; 
+            margin-bottom: 30px; 
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.2); 
+        }
+
+        .btn { 
+            display: block; 
+            width: 280px; 
+            padding: 15px; 
+            margin: 15px auto; 
+            background: #ff4d6d; 
+            color: white; 
+            border: none; 
+            border-radius: 50px; 
+            font-size: 1.2rem; 
+            cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .btn:hover { background: #e91e63; transform: scale(1.05); }
+
+        /* FLOATING HEARTS */
+        .heart { position: absolute; color: #ff4d6d; font-size: 20px; animation: float 5s linear infinite; opacity: 0; z-index: 1; }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* SLIDESHOW OVERLAY */
+        .overlay {
+            display: none; 
+            position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; 
+            background-color: rgba(255, 182, 193, 0.98);
+            flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        .slides-container { position: relative; text-align: center; width: 100%; }
+
+        .mySlides {
+            display: none; margin: 0 auto; width: auto; max-width: 90%; max-height: 70vh;
+            border: 8px solid white; border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeEffect 1.5s;
+        }
+
+        @keyframes fadeEffect { from {opacity: 0.4} to {opacity: 1} }
+
+        .close-btn {
+            position: absolute; top: 20px; right: 40px;
+            font-size: 50px; color: white; cursor: pointer; z-index: 1001;
+        }
+
+        .caption { color: #d63384; font-size: 24px; margin-top: 20px; font-weight: bold; text-align: center; }
+    </style>
 </head>
-
 <body>
-    <!-- Confetti Canvas -->
-    <canvas id="confetti-canvas"></canvas>
 
-    <div class="container">
-        <!-- Welcome Screen -->
-        <section id="welcome-screen" class="screen active">
-            <h1 class="title">Happy Birthday,<br><span class="highlight">Rani!</span></h1>
-            <p class="subtitle">I made something special for you...</p>
-            <button id="start-btn" class="primary-btn">Open Your Present 🎁</button>
-        </section>
-
-        <!-- Main Content Screen -->
-        <section id="main-screen" class="screen hidden">
-            <!-- Music Player -->
-            <div class="music-player">
-                <button id="music-btn" class="icon-btn">🎵 Play 'Happy Birthday Rani'</button>
-                <audio id="bg-music" loop>
-                    <source src="assets/music/happy_birthday_rani.m4a" type="audio/mp4">
-                </audio>
-            </div>
-
-            <!-- Slideshow -->
-            <div class="slideshow-container">
-                <div class="slide fade active">
-                    <img id="photo-2" src="assets/images/photo-2.png" alt="Cute Teddy Bear">
-                </div>
-                <div class="slide fade">
-                    <img id="photo-3" src="assets/images/photo-3.png" alt="Beautiful Bouquet">
-                </div>
-                <div class="slide fade">
-                    <img id="photo-4" src="assets/images/photo-4.png" alt="Teddy bear with gift">
-                </div>
-                <div class="slide fade">
-                    <img id="photo-5" src="assets/images/photo-5.png" alt="Two teddy bears hugging">
-                </div>
-                <div class="slide fade">
-                    <img id="photo-6" src="assets/images/photo-6.png" alt="Pink peonies bouquet">
-                </div>
-                <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
-                <button class="next" onclick="changeSlide(1)">&#10095;</button>
-            </div>
-
-            <!-- Interactive Elements -->
-            <div class="interactive-area">
-                <h2 class="section-title">Tap the hearts to reveal a surprise...</h2>
-                <div class="hearts-container">
-                    <div class="heart-item" data-message="You light up my life every single day! ✨">❤️</div>
-                    <div class="heart-item" data-message="Your smile is my favorite thing in the world. 😊">💖</div>
-                    <div class="heart-item" data-message="I love you more than words can say. 🥰">💝</div>
-                </div>
-                <!-- Modal for messages -->
-                <div id="message-modal" class="modal hidden">
-                    <div class="modal-content">
-                        <span class="close-btn">&times;</span>
-                        <p id="modal-text"></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mini Game / Quiz -->
-            <div class="quiz-section">
-                <h2 class="section-title">A Little Question for You...</h2>
-                <p class="quiz-q">Who loves Rani the most in the entire universe?</p>
-                <div class="quiz-options">
-                    <button class="quiz-btn wrong">Pizza 🍕</button>
-                    <button class="quiz-btn wrong">Your Phone 📱</button>
-                    <button class="quiz-btn correct">Me! 🙋‍♂️</button>
-                </div>
-                <p id="quiz-result" class="hidden"></p>
-            </div>
-        </section>
+    <div class="main-container">
+        <h1 class="title">🎉 Happy Birthday Rani 🎂 ❤️</h1>
+        <button class="btn" onclick="openSlideshow('parents')">Surprise Gift 🎁</button>
+        <button class="btn" onclick="openSlideshow('love')">My Love 💖</button>
+        <button class="btn" onclick="openSlideshow('sweet')">Sweet Gift 🧸</button>
     </div>
 
-    <script src="script.js"></script>
-</body>
+    <div id="slideshowOverlay" class="overlay">
+        <span class="close-btn" onclick="closeSlideshow()">&times;</span>
+        <div class="slides-container" id="contentArea"></div>
+        <div id="captionText" class="caption"></div>
+    </div>
 
+    <script>
+        // UPDATED DATA WITH YOUR SPECIFIC IMAGE NAMES
+        const data = {
+            parents: {
+                pics: ['images/parents.jpg'], 
+                msg: "The Pillars of My Life ❤️"
+            },
+            love: {
+                // ADDED mycutie.jpg and rani14.jpg HERE
+                pics: ['images/mycutie.jpg', 'images/rani14.jpg'], 
+                msg: "You are my everything, Rani! 💕"
+            },
+            sweet: {
+                pics: ['images/teddies.jpg'], 
+                msg: "A Sweet Gift for a Sweet Soul! 🧸"
+            }
+        };
+
+        let slideIndex = 0;
+        let slideTimer;
+
+        function openSlideshow(type) {
+            const overlay = document.getElementById("slideshowOverlay");
+            const content = document.getElementById("contentArea");
+            const caption = document.getElementById("captionText");
+            
+            overlay.style.display = "flex";
+            caption.innerText = data[type].msg;
+            
+            let html = "";
+            data[type].pics.forEach(pic => {
+                html += `<img class="mySlides" src="${pic}">`;
+            });
+            content.innerHTML = html;
+
+            slideIndex = 0;
+            showSlides();
+        }
+
+        function showSlides() {
+            let slides = document.getElementsByClassName("mySlides");
+            if (slides.length === 0) return;
+            for (let i = 0; i < slides.length; i++) { slides[i].style.display = "none"; }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            slides[slideIndex-1].style.display = "block";
+            
+            if(slides.length > 1) {
+                slideTimer = setTimeout(showSlides, 3000); 
+            }
+        }
+
+        function closeSlideshow() {
+            document.getElementById("slideshowOverlay").style.display = "none";
+            clearTimeout(slideTimer);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 400);
+    </script>
+
+</body>
 </html>
